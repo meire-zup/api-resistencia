@@ -20,13 +20,15 @@ public class RebeldeDAO {
 
     }
 
+    // Método adiciona rebelde salva no banco de dados
     public void adicionarRebelde(String nome, String genero, Integer idade) {
 
         Rebelde rebelde = new Rebelde();
+        Boolean status = true;
 
         if (conexaoDAO.getConexao() != null) {
 
-            String sql = "INSERT INTO rebelde (nome, genero, idade) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO rebelde (nome, genero, idade,status) VALUES (?, ?, ?, ?, ?)";
             PreparedStatement statement = null;
             try {
 
@@ -35,6 +37,7 @@ public class RebeldeDAO {
                 statement.setString(1, nome);
                 statement.setString(2, genero);
                 statement.setInt(3, idade);
+                statement.setBoolean(4, status);
                 statement.executeUpdate();
 
                 System.out.println("Rebelde " + nome + " adicionado(a) com sucesso!");
