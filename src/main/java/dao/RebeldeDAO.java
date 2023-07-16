@@ -65,18 +65,24 @@ public class RebeldeDAO {
                         rebelde.setGenero(resultSet.getString("genero"));
                         rebelde.setStatus(resultSet.getBoolean("status"));
                         // Obtém as informações da localização
-                        String localizacao = resultSet.getString("localizacao_id");
+                        //long localizacaoId = resultSet.getLong("localizacao_id");
+                        //String localizacao = resultSet.getString("ip");
                         //Localizacao localizacaoObj = buscarLocalizacaoPorIp(localizacao);
-                        Localizacao localizacaoObj = localizacaoDAO.buscarLocalizacaoPorIp(localizacao);
+                        //Localizacao localizacaoObj = localizacaoDAO.buscarLocalizacaoPorIp(localizacaoId);
 
-                        rebelde.setLocalizacao(localizacaoObj);
+                        //rebelde.setLocalizacao(localizacaoObj);
 
                         rebelde.setIdade(resultSet.getInt("idade"));
+
+                    } else {
+
+                        throw new RuntimeException("Rebelde não encontrado no banco de dados.");
+
                     }
                 }
             } catch (SQLException e) {
 
-                e.printStackTrace();
+                throw new RuntimeException("Erro ao encontrar rebelde no banco de dados. " + e.getMessage());
             }
         }
 

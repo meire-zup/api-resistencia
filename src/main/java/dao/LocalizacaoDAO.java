@@ -28,10 +28,15 @@ public class LocalizacaoDAO {
                         localizacao = new Localizacao();
                         localizacao.setId(resultSet.getLong("id"));
                         localizacao.setIp(resultSet.getString("ip"));
+                    } else {
+
+                        throw new RuntimeException("Localização não encontrado no banco de dados.");
+
                     }
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+
+                throw new RuntimeException("Erro ao encontrar localização no banco de dados. " + e.getMessage());
             }
         }
 
