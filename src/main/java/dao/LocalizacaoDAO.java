@@ -1,6 +1,7 @@
 package dao;
 
 import model.Localizacao;
+import model.Rebelde;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,7 +16,6 @@ public class LocalizacaoDAO {
         this.conexaoDAO = conexaoDAO;
 
     }
-
     public Localizacao buscarLocalizacaoPorIp(String ip) {
         Localizacao localizacao = null;
 
@@ -41,6 +41,33 @@ public class LocalizacaoDAO {
         }
 
         return localizacao;
+    }
+    // Adiciona localização no banco de dados
+    public void adicionarLocalizacao(String ip) {
+
+
+        if (conexaoDAO.getConexao() != null) {
+
+            String sql = "INSERT INTO localizacao (ip) VALUES (?)";
+            PreparedStatement statement = null;
+            try {
+
+                statement = conexaoDAO.getConexao().prepareStatement(sql);
+
+                statement.setString(1, ip);
+                statement.executeUpdate();
+
+                System.out.println("Localização " + ip + " adicionada com sucesso!");
+
+            } catch (SQLException e) {
+
+                e.getMessage();
+
+                e.printStackTrace();
+
+            }
+
+        }
     }
 
 }

@@ -41,4 +41,6 @@ public class Relatorio {
     public void setQuantidadeRelatorios(int quantidadeRelatorios) {
         this.quantidadeRelatorios = quantidadeRelatorios;
     }
+
+
 }

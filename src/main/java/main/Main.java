@@ -1,4 +1,4 @@
-package org.example;
+package main;
 
 import dao.*;
 import model.*;
@@ -40,12 +40,19 @@ public class Main {
          inventario =       inventarioDAO.buscarInventarioPorId(9L);
         //System.out.println(inventario.getRebelde().getNome());
         Relatorio relatorio = new Relatorio();
+        RelatorioService relatorioService = new RelatorioService(rebeldeDAO);
+        RelatorioView relatorioView = new RelatorioView(relatorioService, relatorio);
+        //relatorioView.relatarTraidor("Thor");
+        //System.out.println(relatorio.getRebelde().getNome());
+        //System.out.println(relatorioService.getTraidores().size());
+        //System.out.println(relatorio.getQuantidadeRelatorios());
+        //Rebelde rebelde = rebeldeDAO.buscarRebeldePorNome("Thor");
+        //System.out.println(rebelde.getNome());
 
-        RelatorioService relatorioService = new RelatorioService(relatorio, rebeldeDAO);
-        RelatorioView relatorioView = new RelatorioView(relatorioService);
-        relatorioView.relatarTraidor("Thor");
-        System.out.println(relatorio.getRebelde().getNome());
-        System.out.println(relatorioService.getTraidores().size());
+        //relatorioService.relatarTraidor("Thor");
+        //System.out.println( relatorioService.getRelatorio().getRebelde().getNome());
+        //System.out.println(relatorioService.getRelatorio().getQuantidadeRelatorios());
+        localizacaoDAO.adicionarLocalizacao("192.168.1.6");
 
     }
 

@@ -9,15 +9,15 @@ import java.util.List;
 
 public class RelatorioService {
 
-    private Relatorio relatorio;
+    private Relatorio relatorio = new Relatorio();
     private RebeldeDAO rebeldeDAO;
 
     private List<Rebelde> traidores;
 
 
-    public RelatorioService(Relatorio relatorio, RebeldeDAO rebeldeDAO) {
+    public RelatorioService(RebeldeDAO rebeldeDAO) {
 
-        this.relatorio = relatorio;
+
         this.rebeldeDAO = rebeldeDAO;
         this.traidores = new ArrayList<>();
 
@@ -30,7 +30,8 @@ public class RelatorioService {
         if (traidores.contains(rebeldeEncontrado)) {
 
             relatorio.incrementarQuantidadeRelatorios();
-            relatorio.getRebelde().setNome(nomeRebelde);
+            relatorio.getRebelde().setNome(rebeldeEncontrado.getNome());
+            //relatorio.setRebelde(rebeldeEncontrado);
 
 
         } else {
@@ -38,7 +39,8 @@ public class RelatorioService {
             Relatorio relatorio = new Relatorio(rebeldeEncontrado);
             traidores.add(rebeldeEncontrado);
             relatorio.incrementarQuantidadeRelatorios();
-            relatorio.getRebelde().setNome(nomeRebelde);
+            relatorio.getRebelde().setNome(rebeldeEncontrado.getNome());
+            //relatorio.setRebelde(rebeldeEncontrado);
 
         }
     }
