@@ -19,9 +19,10 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         LocalizacaoDAO localizacaoDAO = new LocalizacaoDAO(conexao);
-        RebeldeDAO rebeldeDAO = new RebeldeDAO(conexao, localizacaoDAO);
         ProdutoDAO produtoDAO = new ProdutoDAO(conexao);
         InventarioDAO inventarioDAO = new InventarioDAO(conexao);
+        RebeldeDAO rebeldeDAO = new RebeldeDAO(conexao, localizacaoDAO,inventarioDAO);
+
         RebeldeView rebeldeView = new RebeldeView(rebeldeDAO, scanner);
         InventarioView inventarioView = new InventarioView(inventarioDAO, scanner, rebeldeDAO);
 
@@ -32,16 +33,18 @@ public class Main {
         Localizacao localizacao = localizacaoDAO.buscarLocalizacaoPorIp("192.168.1.1");
         System.out.println(localizacao.getId());
         //System.out.println(rebelde.getLocalizacao());*/
-        //rebeldeDAO.adicionarRebelde("Volverini","Masculino",35);
+        //rebeldeDAO.adicionarRebelde("Rebelde Teste","Masculino",35);
         //Produto produto = produtoDAO.buscarProdutoPorNome("Arma");
         //System.out.println(produto.getNome());
         //System.out.println(inventarioDAO.buscarInventarioPorId(9L));
+
         Inventario inventario = new Inventario();
          inventario =       inventarioDAO.buscarInventarioPorId(9L);
         //System.out.println(inventario.getRebelde().getNome());
         Relatorio relatorio = new Relatorio();
         RelatorioService relatorioService = new RelatorioService(rebeldeDAO);
         RelatorioView relatorioView = new RelatorioView(relatorioService, relatorio);
+
         //relatorioView.relatarTraidor("Thor");
         //System.out.println(relatorio.getRebelde().getNome());
         //System.out.println(relatorioService.getTraidores().size());
@@ -52,7 +55,19 @@ public class Main {
         //relatorioService.relatarTraidor("Thor");
         //System.out.println( relatorioService.getRelatorio().getRebelde().getNome());
         //System.out.println(relatorioService.getRelatorio().getQuantidadeRelatorios());
-        localizacaoDAO.adicionarLocalizacao("192.168.1.6");
+        //localizacaoDAO.adicionarLocalizacao("192.168.1.6");
+        //TesteDAO testeDAO = new TesteDAO(conexao);
+        //System.out.println(testeDAO.buscaIdDaLocalizacao("192.168.1.4"));
+        //testeDAO.adicionarLocalizacaoParaRebelde();
+
+       //System.out.println(rebeldeDAO.buscaIdDoRebelde("Meire"));
+        //System.out.println(localizacaoDAO.buscaIdDaLocalizacao("192.168.1.4"));
+        //System.out.println();
+       // System.out.println(rebeldeDAO.verificarSeRebeldeExiste("Thor"));
+        //inventarioDAO.criarInventario();
+        //rebeldeDAO.adicionarRebelde("Meire", "feminino", 47, "192.168.1.4");
+
+
 
     }
 

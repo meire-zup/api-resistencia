@@ -3,6 +3,7 @@ package dao;
 import model.Localizacao;
 import model.Rebelde;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -55,6 +56,7 @@ public class LocalizacaoDAO {
                 statement = conexaoDAO.getConexao().prepareStatement(sql);
 
                 statement.setString(1, ip);
+
                 statement.executeUpdate();
 
                 System.out.println("Localização " + ip + " adicionada com sucesso!");
@@ -69,5 +71,85 @@ public class LocalizacaoDAO {
 
         }
     }
+
+    // Método busca a localização por ip e devolve seu id
+    public Long buscaIdDaLocalizacao(String ip) {
+        Long id = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = conexaoDAO.getConexao();
+            if (connection != null) {
+                String sql = "SELECT id FROM localizacao WHERE ip = ?";
+                statement = connection.prepareStatement(sql);
+                statement.setString(1, ip);
+                resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    id = resultSet.getLong("id");
+                    //System.out.println("ID encontrado: " + id);
+                } else {
+                    System.out.println("IP não encontrado.");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar IP: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Erro ao fechar recursos: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        return id;
+    }
+
+    public void adicionarLocalizacaoParaRebelde(String ip) {
+
+        Long id = buscaIdDaLocalizacao(ip);
+
+        Rebelde rebelde = new Rebelde();
+        Boolean status = true;
+
+        if (conexaoDAO.getConexao() != null) {
+
+            String sql = "INSERT INTO rebelde (id_localizacao) VALUES (?)";
+
+            PreparedStatement statement = null;
+
+            try {
+
+                statement = conexaoDAO.getConexao().prepareStatement(sql);
+
+                statement.setLong(1, id);
+
+                statement.executeUpdate();
+
+                System.out.println("Ip " + ip + " adicionado com sucesso!");
+
+            } catch (SQLException e) {
+
+                e.getMessage();
+
+                e.printStackTrace();
+
+            }
+
+        }
+    }
+
 
 }

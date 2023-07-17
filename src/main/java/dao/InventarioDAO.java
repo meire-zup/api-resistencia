@@ -21,6 +21,27 @@ public class InventarioDAO {
 
     }
 
+    // Método cria um novo inventário testado
+    public long criarInventario() {
+        long inventarioId = 0;
+
+        if (conexaoDAO.getConexao() != null) {
+            String sql = "INSERT INTO inventario DEFAULT VALUES RETURNING id";
+            try (PreparedStatement statement = conexaoDAO.getConexao().prepareStatement(sql)) {
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        inventarioId = resultSet.getLong("id");
+                        //System.out.println("Inventário criado com sucesso!");
+                    }
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return inventarioId;
+    }
+
     // Método cria um inventário para um rebelde
     public void criarInventario(Rebelde rebelde, List<Produto> recursos) {
         if (rebelde.getInventario() == null) {

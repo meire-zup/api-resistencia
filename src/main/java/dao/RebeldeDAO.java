@@ -1,35 +1,60 @@
 package dao;
 
+import model.Inventario;
 import model.Localizacao;
+import model.Produto;
 import model.Rebelde;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 public class RebeldeDAO {
 
     ConexaoDAO conexaoDAO;
     LocalizacaoDAO localizacaoDAO;
+    InventarioDAO inventarioDAO;
 
 
-    public RebeldeDAO(ConexaoDAO conexaoDAO, LocalizacaoDAO localizacaoDAO) {
+    public RebeldeDAO(ConexaoDAO conexaoDAO, LocalizacaoDAO localizacaoDAO, InventarioDAO inventarioDAO) {
 
         this.conexaoDAO = conexaoDAO;
         this.localizacaoDAO = localizacaoDAO;
-
+        this.inventarioDAO = inventarioDAO;
     }
 
-    // Método adiciona rebelde salva no banco de dados
-    public void adicionarRebelde(String nome, String genero, Integer idade) {
+    // Método verifica se rebelde existe no banco de dados - testado
+    public boolean verificarSeRebeldeExiste (String nome) {
+
+        Rebelde rebelde = buscarRebeldePorNome(nome);
+        if(rebelde != null) {
+            return true;
+        }
+        return false;
+    }
+
+    // Método adiciona rebelde salva no banco de dados - testado
+    public void adicionarRebelde(String nome, String genero, Integer idade, String ip) {
 
         Rebelde rebelde = new Rebelde();
         Boolean status = true;
 
+
+        Long idLocalizacao = localizacaoDAO.buscaIdDaLocalizacao(ip);
+
+        Long idInventario = inventarioDAO.criarInventario();
+
+
+
         if (conexaoDAO.getConexao() != null) {
 
-            String sql = "INSERT INTO rebelde (nome, genero, idade,status) VALUES (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO rebelde (nome, genero, idade, status, " +
+                    "localizacao_id, inventario_id) VALUES (?, ?, ?, ?, ?, ?)";
+
             PreparedStatement statement = null;
+
             try {
 
                 statement = conexaoDAO.getConexao().prepareStatement(sql);
@@ -38,6 +63,10 @@ public class RebeldeDAO {
                 statement.setString(2, genero);
                 statement.setInt(3, idade);
                 statement.setBoolean(4, status);
+                statement.setLong(5,idLocalizacao);
+                statement.setLong(6,idInventario);
+
+
                 statement.executeUpdate();
 
                 System.out.println("Rebelde " + nome + " adicionado(a) com sucesso!");
@@ -90,6 +119,51 @@ public class RebeldeDAO {
         }
 
         return rebelde;
+    }
+
+    // Método busca o rebelde por nome e devolve seu id - testado
+    public Long buscaIdDoRebelde(String nome) {
+        Long id = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = conexaoDAO.getConexao();
+            if (connection != null) {
+                String sql = "SELECT id FROM rebelde WHERE nome = ?";
+                statement = connection.prepareStatement(sql);
+                statement.setString(1, nome);
+                resultSet = statement.executeQuery();
+
+                if (resultSet.next()) {
+                    id = resultSet.getLong("id");
+                    System.out.println("ID encontrado: " + id);
+                } else {
+                    System.out.println("Nome não encontrado.");
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar nome: " + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                System.out.println("Erro ao fechar recursos: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+        return id;
     }
 
 }

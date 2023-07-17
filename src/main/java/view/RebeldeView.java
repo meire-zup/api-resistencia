@@ -29,7 +29,7 @@ public class RebeldeView {
         System.out.println("Informe a idade:");
         Integer idade = scanner.nextInt();
 
-        rebeldeDAO.adicionarRebelde(nome, genero, idade);
+       // rebeldeDAO.adicionarRebelde(nome, genero, idade);
 
     }
 
