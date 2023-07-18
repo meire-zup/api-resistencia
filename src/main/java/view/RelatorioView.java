@@ -1,4 +1,4 @@
-package view;
+/*package view;
 
 
 import model.Relatorio;
@@ -20,3 +20,4 @@ public class RelatorioView {
 
     }
 }
+*/

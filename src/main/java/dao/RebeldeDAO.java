@@ -3,6 +3,7 @@ package dao;
 import model.Inventario;
 import model.Localizacao;
 import model.Rebelde;
+import model.Relatorio;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,12 +16,16 @@ public class RebeldeDAO {
     LocalizacaoDAO localizacaoDAO;
     InventarioDAO inventarioDAO;
 
+    RelatorioDAO relatorioDAO;
 
-    public RebeldeDAO(ConexaoDAO conexaoDAO, LocalizacaoDAO localizacaoDAO, InventarioDAO inventarioDAO) {
+
+    public RebeldeDAO(ConexaoDAO conexaoDAO, LocalizacaoDAO localizacaoDAO,
+                      InventarioDAO inventarioDAO, RelatorioDAO relatorioDAO) {
 
         this.conexaoDAO = conexaoDAO;
         this.localizacaoDAO = localizacaoDAO;
         this.inventarioDAO = inventarioDAO;
+        this.relatorioDAO = relatorioDAO;
 
     }
 
@@ -37,7 +42,10 @@ public class RebeldeDAO {
     }
 
 
-    // testando arrumar - só falta setar o id do rebelde
+    // Método cria rebelde, setando os atributos e salvando no banco de dados
+    // Cria objeto rebelde, cria objeto inventario e objeto relatorio.
+    // Adiciona a localização já salva no banco de dados. Se for outra tem que adicionar primeiro
+    // Falta setar id
     public Rebelde adicionarRebelde(String nome, String genero, Integer idade, String ip) {
         Rebelde rebelde = null;
         boolean status = true;
@@ -47,17 +55,26 @@ public class RebeldeDAO {
         Inventario inventario = inventarioDAO.criarInventario2();
         Long idInventario = inventario.getId();
 
+        Relatorio relatorio = relatorioDAO.criarRelatorio();
+        Long idRelatorio = relatorio.getId();
+
         if (conexaoDAO.getConexao() != null) {
-            String sql = "INSERT INTO rebelde (nome, genero, idade, status, localizacao_id, inventario_id) " +
-                    "VALUES (?, ?, ?, ?, ?, ?)";
+            String sql1 = "INSERT INTO relatorio (quantidade_relatorio) VALUES (0) RETURNING id";
+
+            String sql = "INSERT INTO rebelde (nome, genero, idade, status, " +
+                    "localizacao_id, inventario_id, relatorio_id) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
             try (PreparedStatement statement = conexaoDAO.getConexao().prepareStatement(sql)) {
+
                 statement.setString(1, nome);
                 statement.setString(2, genero);
                 statement.setInt(3, idade);
                 statement.setBoolean(4, status);
                 statement.setLong(5, idLocalizacao);
                 statement.setLong(6, idInventario);
+                statement.setLong(7, idRelatorio);
+
 
                 statement.executeUpdate();
 
@@ -72,9 +89,7 @@ public class RebeldeDAO {
                 rebelde.getLocalizacao().setId(idLocalizacao);
                 rebelde.getLocalizacao().setIp(ip);
                 rebelde.getInventario().setId(idInventario);
-
-                System.out.println(rebelde.getLocalizacao().getId());
-
+                rebelde.getRelatorio().setId(idRelatorio);
 
                 System.out.println("Rebelde " + rebelde.getNome() + " adicionado(a) com sucesso!");
             } catch (SQLException e) {

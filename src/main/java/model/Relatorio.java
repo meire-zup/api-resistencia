@@ -3,33 +3,29 @@ package model;
 import java.util.List;
 
 public class Relatorio {
+        private Long id;
         private Rebelde rebelde;
-        private int quantidadeRelatorios;
+        private int quantidadeRelatorio;
 
 
-        public Relatorio(Rebelde rebelde) {
+    public Relatorio() {
 
-            this.rebelde = rebelde;
-            this.quantidadeRelatorios = 0;
-        }
+        this.quantidadeRelatorio = 0;
 
-        public Relatorio () {
+    }
 
-        }
-
-
-        public Rebelde getRebelde() {
+    public Rebelde getRebelde() {
 
             return rebelde;
         }
 
-        public int getQuantidadeRelatorios() {
-            return quantidadeRelatorios;
+        public int getQuantidadeRelatorio() {
+            return quantidadeRelatorio;
         }
 
-        public void incrementarQuantidadeRelatorios() {
-            quantidadeRelatorios++;
-            if (quantidadeRelatorios >= 3) {
+        public void incrementarQuantidadeRelatorio() {
+            quantidadeRelatorio++;
+            if (quantidadeRelatorio >= 3) {
                 rebelde.setStatus(false);
             }
         }
@@ -38,9 +34,15 @@ public class Relatorio {
         this.rebelde = rebelde;
     }
 
-    public void setQuantidadeRelatorios(int quantidadeRelatorios) {
-        this.quantidadeRelatorios = quantidadeRelatorios;
+    public void setQuantidadeRelatorio(int quantidadeRelatorios) {
+        this.quantidadeRelatorio = quantidadeRelatorios;
     }
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

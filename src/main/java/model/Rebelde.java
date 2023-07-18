@@ -8,6 +8,7 @@ public class Rebelde {
     private Boolean status;
     private Localizacao localizacao;
     private Inventario inventario;
+    private Relatorio relatorio;
 
     public Rebelde() {
 
@@ -68,6 +69,17 @@ public class Rebelde {
     }
 
     public void setInventario(Inventario inventario) {
+
         this.inventario = inventario;
+    }
+
+    public Relatorio getRelatorio() {
+
+        return relatorio;
+
+    }
+
+    public void setRelatorio(Relatorio relatorio) {
+        this.relatorio = relatorio;
     }
 }

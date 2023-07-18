@@ -2,6 +2,7 @@ package main;
 
 import dao.*;
 import model.Produto;
+import model.Rebelde;
 import view.InventarioView;
 import view.RebeldeView;
 
@@ -18,7 +19,10 @@ public class MainTest {
         LocalizacaoDAO localizacaoDAO = new LocalizacaoDAO(conexao);
         ProdutoDAO produtoDAO = new ProdutoDAO(conexao);
         InventarioDAO inventarioDAO = new InventarioDAO(conexao, produtoDAO);
-        RebeldeDAO rebeldeDAO = new RebeldeDAO(conexao, localizacaoDAO,inventarioDAO);
+        RelatorioDAO relatorioDAO = new RelatorioDAO(conexao);
+
+        RebeldeDAO rebeldeDAO = new RebeldeDAO(conexao, localizacaoDAO,inventarioDAO, relatorioDAO);
+
 
         RebeldeView rebeldeView = new RebeldeView(rebeldeDAO, scanner);
         InventarioView inventarioView = new InventarioView(inventarioDAO, scanner, rebeldeDAO);
@@ -65,8 +69,7 @@ public class MainTest {
         //System.out.println();
        // System.out.println(rebeldeDAO.verificarSeRebeldeExiste("Thor"));
         //inventarioDAO.criarInventario();
-       //Rebelde rebeldeJucemeire = rebeldeDAO.adicionarRebelde("Jucemeire", "feminino", 47, "192.168.1.4");
-        //System.out.println(rebeldeJucemeire.getLocalizacao().getId());
+      // Rebelde rebeldeJucemeire = rebeldeDAO.adicionarRebelde("Jucemeire", "feminino", 47, "192.168.1.4");
         //rebeldeDAO.atualizarLocalizacaoRebelde("192.168.1.4", "Thor");
        //System.out.println(inventarioDAO.criarInventario2().getId());
         //System.out.println(rebeldeDAO.adicionarRebelde("Jucemeire", "feminino", 47, "192.168.1.4").getNome());
@@ -75,6 +78,13 @@ public class MainTest {
         //System.out.println(inventarioDAO.buscarIdInventarioPorNomeRebelde("Thor"));
         //Localizacao localizacao = localizacaoDAO.buscarLocalizacaoPorIp("192.168.1.1");
         //System.out.println(localizacao.getId());
+
+
+        //relatorioDAO.criarRelatorio();
+       // System.out.println(relatorioDAO.buscarIdRelatorioPorNomeRebelde("Jucemeire"));
+        relatorioDAO.denunciarTraidor("Jucemeire");
+        //System.out.println(rebeldeDAO.verificarSeRebeldeExiste("Jucemeire"));
+
 
 
     }

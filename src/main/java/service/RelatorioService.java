@@ -1,4 +1,4 @@
-package service;
+/*package service;
 
 import dao.RebeldeDAO;
 import model.Rebelde;
@@ -62,3 +62,4 @@ public class RelatorioService {
         this.traidores = traidores;
     }
 }
+*/
