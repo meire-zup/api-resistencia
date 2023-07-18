@@ -21,13 +21,5 @@ public class InventarioView {
         this.rebeldeDAO = rebeldeDAO;
 
     }
-    // Método cria um inventário para um rebelde
-    public void posseRebelde() {
 
-        System.out.println("Informe o nome do rebelde:");
-        Rebelde rebelde = rebeldeDAO.buscarRebeldePorNome(scanner.nextLine());
-
-        inventarioDAO.criarInventario(rebelde, new ArrayList<>());
-
-    }
 }

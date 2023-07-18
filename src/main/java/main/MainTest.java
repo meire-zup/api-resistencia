@@ -1,16 +1,13 @@
 package main;
 
 import dao.*;
-import model.*;
-import service.RelatorioService;
+import model.Produto;
 import view.InventarioView;
 import view.RebeldeView;
-import view.RelatorioView;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Main {
+public class MainTest {
     public static void main(String[] args) {
 
         ConexaoDAO conexao = new ConexaoDAO();
@@ -20,7 +17,7 @@ public class Main {
 
         LocalizacaoDAO localizacaoDAO = new LocalizacaoDAO(conexao);
         ProdutoDAO produtoDAO = new ProdutoDAO(conexao);
-        InventarioDAO inventarioDAO = new InventarioDAO(conexao);
+        InventarioDAO inventarioDAO = new InventarioDAO(conexao, produtoDAO);
         RebeldeDAO rebeldeDAO = new RebeldeDAO(conexao, localizacaoDAO,inventarioDAO);
 
         RebeldeView rebeldeView = new RebeldeView(rebeldeDAO, scanner);
@@ -34,16 +31,16 @@ public class Main {
         System.out.println(localizacao.getId());
         //System.out.println(rebelde.getLocalizacao());*/
         //rebeldeDAO.adicionarRebelde("Rebelde Teste","Masculino",35);
-        //Produto produto = produtoDAO.buscarProdutoPorNome("Arma");
-        //System.out.println(produto.getNome());
+        Produto produto = produtoDAO.buscarProdutoPorNome("Arma");
+        System.out.println(produto.getNome());
         //System.out.println(inventarioDAO.buscarInventarioPorId(9L));
 
-        Inventario inventario = new Inventario();
-         inventario =       inventarioDAO.buscarInventarioPorId(9L);
+        //Inventario inventario = new Inventario();
+        // inventario =       inventarioDAO.buscarInventarioPorId(9L);
         //System.out.println(inventario.getRebelde().getNome());
-        Relatorio relatorio = new Relatorio();
-        RelatorioService relatorioService = new RelatorioService(rebeldeDAO);
-        RelatorioView relatorioView = new RelatorioView(relatorioService, relatorio);
+        //Relatorio relatorio = new Relatorio();
+       // RelatorioService relatorioService = new RelatorioService(rebeldeDAO);
+       // RelatorioView relatorioView = new RelatorioView(relatorioService, relatorio);
 
         //relatorioView.relatarTraidor("Thor");
         //System.out.println(relatorio.getRebelde().getNome());
@@ -55,7 +52,10 @@ public class Main {
         //relatorioService.relatarTraidor("Thor");
         //System.out.println( relatorioService.getRelatorio().getRebelde().getNome());
         //System.out.println(relatorioService.getRelatorio().getQuantidadeRelatorios());
-        //localizacaoDAO.adicionarLocalizacao("192.168.1.6");
+       //localizacaoDAO.adicionarLocalizacao("192.168.1.6");
+      // Localizacao localizacao = localizacaoDAO.adicionarLocalizacao("192.168.1.7");
+     // System.out.println(localizacao.getId());
+     // System.out.println(localizacao.getIp());
         //TesteDAO testeDAO = new TesteDAO(conexao);
         //System.out.println(testeDAO.buscaIdDaLocalizacao("192.168.1.4"));
         //testeDAO.adicionarLocalizacaoParaRebelde();
@@ -65,8 +65,16 @@ public class Main {
         //System.out.println();
        // System.out.println(rebeldeDAO.verificarSeRebeldeExiste("Thor"));
         //inventarioDAO.criarInventario();
-        //rebeldeDAO.adicionarRebelde("Meire", "feminino", 47, "192.168.1.4");
-
+       //Rebelde rebeldeJucemeire = rebeldeDAO.adicionarRebelde("Jucemeire", "feminino", 47, "192.168.1.4");
+        //System.out.println(rebeldeJucemeire.getLocalizacao().getId());
+        //rebeldeDAO.atualizarLocalizacaoRebelde("192.168.1.4", "Thor");
+       //System.out.println(inventarioDAO.criarInventario2().getId());
+        //System.out.println(rebeldeDAO.adicionarRebelde("Jucemeire", "feminino", 47, "192.168.1.4").getNome());
+       // produtoDAO.criarProduto("teste", 300.0);
+        //inventarioDAO.adicionarProdutoNoInventario2("Jucemeire", "Arma");
+        //System.out.println(inventarioDAO.buscarIdInventarioPorNomeRebelde("Thor"));
+        //Localizacao localizacao = localizacaoDAO.buscarLocalizacaoPorIp("192.168.1.1");
+        //System.out.println(localizacao.getId());
 
 
     }

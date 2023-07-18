@@ -2,26 +2,24 @@ package dao;
 
 import model.Inventario;
 import model.Produto;
-import model.Rebelde;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 
 public class InventarioDAO {
 
         private ConexaoDAO conexaoDAO;
+        private ProdutoDAO produtoDAO;
 
-    public InventarioDAO(ConexaoDAO conexaoDAO) {
+    public InventarioDAO(ConexaoDAO conexaoDAO, ProdutoDAO produtoDAO) {
 
         this.conexaoDAO = conexaoDAO;
+        this.produtoDAO = produtoDAO;
 
     }
 
-    // Método cria um novo inventário testado
+    // Método cria um novo inventário - testado
     public long criarInventario() {
         long inventarioId = 0;
 
@@ -39,57 +37,57 @@ public class InventarioDAO {
             }
         }
 
+        Inventario inventario = new Inventario();
+        inventario.setId(inventarioId);
+
         return inventarioId;
     }
 
-    // Método cria um inventário para um rebelde
-    public void criarInventario(Rebelde rebelde, List<Produto> recursos) {
-        if (rebelde.getInventario() == null) {
-            Inventario inventario = new Inventario(rebelde, recursos);
-            if (conexaoDAO.getConexao() != null) {
-                String sql = "INSERT INTO inventario (rebelde_id) VALUES (?) RETURNING id";
+
+        // Método adiciona produto no inventario recebendo o nome do produto e o nome do rebelde - testado
+        public void adicionarProdutoNoInventario2(String nomeRebelde, String nomeProduto) {
+
+            Long inventarioId = buscarIdInventarioPorNomeRebelde(nomeRebelde);
+            Produto produto = produtoDAO.buscarProdutoPorNome(nomeProduto);
+
+            if (inventarioId != null && produto != null && conexaoDAO.getConexao() != null) {
+
+                String sql = "INSERT INTO inventario_produto (inventario_id, produto_id) VALUES (?, ?)";
+
                 try (PreparedStatement statement = conexaoDAO.getConexao().prepareStatement(sql)) {
-                    statement.setLong(1, rebelde.getId());
-                    try (ResultSet resultSet = statement.executeQuery()) {
-                        if (resultSet.next()) {
-                            long inventarioId = resultSet.getLong("id");
 
-                            // Cria uma nova instância de Inventario e define o ID
-                            Inventario novoInventario = new Inventario();
-                            novoInventario.setId(inventarioId);
-
-                            // Atualiza o atributo inventario do rebelde
-                            rebelde.setInventario(novoInventario);
-
-                            // Atualizar o campo inventario_id na tabela rebelde
-                            String updateSql = "UPDATE rebelde SET inventario_id = ? WHERE id = ?";
-                            try (PreparedStatement updateStatement = conexaoDAO.getConexao().prepareStatement(updateSql)) {
-                                updateStatement.setLong(1, inventarioId);
-                                updateStatement.setLong(2, rebelde.getId());
-                                updateStatement.executeUpdate();
-                            }
-
-                            System.out.println("Inventário do rebelde " + rebelde.getNome() + " criado com sucesso!");
-                        }
-                    }
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-    }
-
-    // Método adiciona produtos no inventário
-    public void adicionarProdutoNoInventario(Long id) {
-        Inventario inventario = buscarInventarioPorId(id);
-
-        if (conexaoDAO.getConexao() != null) {
-            String sql = "INSERT INTO inventario_produto (inventario_id, produto_id) VALUES (?, ?)";
-            try (PreparedStatement statement = conexaoDAO.getConexao().prepareStatement(sql)) {
-                for (Produto produto : inventario.getRecursos()) {
-                    statement.setLong(1, inventario.getId());
+                    statement.setLong(1, inventarioId);
                     statement.setLong(2, produto.getId());
                     statement.executeUpdate();
+
+                } catch (SQLException e) {
+
+                    e.printStackTrace();
+
+                }
+            }
+        }
+
+        // Método busca id do inventario de um rebelde - testado
+    public Long buscarIdInventarioPorNomeRebelde(String nomeRebelde) {
+
+        Long inventarioId = null;
+
+        if (conexaoDAO.getConexao() != null) {
+
+            String sql = "SELECT inventario_id FROM rebelde WHERE nome = ?";
+
+            try (PreparedStatement statement = conexaoDAO.getConexao().prepareStatement(sql)) {
+
+                statement.setString(1, nomeRebelde);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+
+                    if (resultSet.next()) {
+
+                        inventarioId = resultSet.getLong("inventario_id");
+
+                    }
                 }
             } catch (SQLException e) {
 
@@ -98,24 +96,29 @@ public class InventarioDAO {
             }
         }
 
+        return inventarioId;
+
     }
-    // Método busca inventário por id
-    public Inventario buscarInventarioPorId(Long id) {
+
+    // Método cria um objeto inventario, seta o id e salva no banco de dados - testado
+    public Inventario criarInventario2() {
         Inventario inventario = null;
+        long inventarioId = 0;
+
 
         if (conexaoDAO.getConexao() != null) {
-            String sql = "SELECT * FROM inventario WHERE id = ?";
+            String sql = "INSERT INTO inventario DEFAULT VALUES RETURNING id";
             try (PreparedStatement statement = conexaoDAO.getConexao().prepareStatement(sql)) {
-                statement.setLong(1, id);
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
+                        inventarioId = resultSet.getLong("id");
                         inventario = new Inventario();
-                        inventario.setId(resultSet.getLong("id"));
-                        // Obtenha outras informações do inventário, se necessário
+                        inventario.setId(inventarioId);
+                        //System.out.println("Inventario  adicionada com sucesso!");
                     }
                 }
             } catch (SQLException e) {
-                e.printStackTrace();
+                throw new RuntimeException(e);
             }
         }
 
