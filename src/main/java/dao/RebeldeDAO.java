@@ -41,32 +41,29 @@ public class RebeldeDAO {
         return false;
     }
 
-
     // Método cria rebelde, setando os atributos e salvando no banco de dados
     // Cria objeto rebelde, cria objeto inventario e objeto relatorio.
-    // Adiciona a localização já salva no banco de dados. Se for outra tem que adicionar primeiro
-    // Falta setar id
-    public Rebelde adicionarRebelde(String nome, String genero, Integer idade, String ip) {
+    // Adiciona a localização já salva no banco de dados. Se for outra tem que adicionar primeiro - testado
+    public Rebelde adicionarRebelde6(String nome, String genero, Integer idade, String ip) {
         Rebelde rebelde = null;
+        long rebeldeId = 0;
         boolean status = true;
+
         Localizacao localizacao = localizacaoDAO.adicionarLocalizacao(ip);
         Long idLocalizacao = localizacao.getId();
 
         Inventario inventario = inventarioDAO.criarInventario2();
         Long idInventario = inventario.getId();
 
+        // Criar o relatório apenas uma vez
         Relatorio relatorio = relatorioDAO.criarRelatorio();
         Long idRelatorio = relatorio.getId();
 
         if (conexaoDAO.getConexao() != null) {
-            String sql1 = "INSERT INTO relatorio (quantidade_relatorio) VALUES (0) RETURNING id";
-
-            String sql = "INSERT INTO rebelde (nome, genero, idade, status, " +
-                    "localizacao_id, inventario_id, relatorio_id) " +
+            String sql = "INSERT INTO rebelde (nome, genero, idade, status, localizacao_id, inventario_id, relatorio_id) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
             try (PreparedStatement statement = conexaoDAO.getConexao().prepareStatement(sql)) {
-
                 statement.setString(1, nome);
                 statement.setString(2, genero);
                 statement.setInt(3, idade);
@@ -75,23 +72,33 @@ public class RebeldeDAO {
                 statement.setLong(6, idInventario);
                 statement.setLong(7, idRelatorio);
 
+                // Não utiliza ResultSet para obter o ID do rebelde
 
-                statement.executeUpdate();
+                int linhasInseridas = statement.executeUpdate();
+                if (linhasInseridas > 0) {
+                    // Obtém o ID gerado automaticamente pelo banco de dados
+                    try (ResultSet resultSet = statement.getGeneratedKeys()) {
+                        if (resultSet.next()) {
+                            rebeldeId = resultSet.getLong(1);
+                        }
+                    }
 
-                rebelde = new Rebelde();
-                rebelde.setLocalizacao(localizacao);
-                rebelde.setInventario(inventario);
+                    rebelde = new Rebelde();
+                    rebelde.setLocalizacao(localizacao);
+                    rebelde.setInventario(inventario);
+                    rebelde.setRelatorio(relatorio);
+                    rebelde.setNome(nome);
+                    rebelde.setGenero(genero);
+                    rebelde.setIdade(idade);
+                    rebelde.setStatus(status);
+                    rebelde.getLocalizacao().setId(idLocalizacao);
+                    rebelde.getLocalizacao().setIp(ip);
+                    rebelde.getInventario().setId(idInventario);
+                    rebelde.getRelatorio().setId(idRelatorio);
+                    rebelde.setId(rebeldeId);
 
-                rebelde.setNome(nome);
-                rebelde.setGenero(genero);
-                rebelde.setIdade(idade);
-                rebelde.setStatus(status);
-                rebelde.getLocalizacao().setId(idLocalizacao);
-                rebelde.getLocalizacao().setIp(ip);
-                rebelde.getInventario().setId(idInventario);
-                rebelde.getRelatorio().setId(idRelatorio);
-
-                System.out.println("Rebelde " + rebelde.getNome() + " adicionado(a) com sucesso!");
+                    System.out.println("Rebelde " + rebelde.getNome() + " adicionado(a) com sucesso!");
+                }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -100,9 +107,8 @@ public class RebeldeDAO {
     }
 
 
-
     // Método adiciona rebelde salva no banco de dados sem setar- testado
-    public void adicionarRebelde3(String nome, String genero, Integer idade, String ip) {
+    public void adicionarRebelde4(String nome, String genero, Integer idade, String ip) {
 
         Rebelde rebelde = new Rebelde();
 
@@ -146,7 +152,7 @@ public class RebeldeDAO {
 
         }
     }
-
+    // Arrumar esse método pois está sendo usado
     public Rebelde buscarRebeldePorNome(String nome) {
         Rebelde rebelde = null;
 

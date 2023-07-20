@@ -96,19 +96,18 @@ public class MainTest {
        // System.out.println(relatorioDAO.buscarIdRelatorioPorNomeRebelde("Jucemeire"));
        // relatorioDAO.denunciarTraidor("Jucemeire");
         //System.out.println(rebeldeDAO.verificarSeRebeldeExiste("Jucemeire"));
-        DelatorDAO delatorDAO = new DelatorDAO(conexao, rebeldeDAO);
+       // DelatorDAO delatorDAO = new DelatorDAO(conexao, rebeldeDAO);
 
         //Boolean existeDenuncia = delatorDAO.existeDenuncia("Luke Skywalker", "Jucemeire");
         //System.out.println(existeDenuncia);
-        delatorDAO.atualizarDelatorRebelde(1L, 3L);
+       // delatorDAO.atualizarDelatorRebelde(1L, 3L);
         //rebeldeDAO.adicionarRebelde("Camila", "feminino", 16, "192.168.1.4");
         //Delator delator = delatorDAO.criarDelator("Thor");
         //System.out.println(delator.getNome());
+        Rebelde rebeldeTeste = rebeldeDAO.adicionarRebelde6("Ultima tentativa", "feminino", 47, "192.168.1.4");
+        System.out.println(rebeldeTeste.getRelatorio().getId());
 
-
-
-
-
+        //relatorioDAO.criarRelatorio();
     }
 
 
