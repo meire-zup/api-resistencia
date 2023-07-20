@@ -95,7 +95,7 @@ public class DelatorDAO {
 
     }
 
-    // Método adiciona produto no inventario recebendo o nome do produto e o nome do rebelde - testado
+    // Método atualiza tabela delator - rebelde
     public void atualizarDelatorRebelde(Long idDelator, Long idRebelde) {
 
 

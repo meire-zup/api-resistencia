@@ -1,23 +1,44 @@
-/*package view;
-
+package view;
 
 import model.Relatorio;
 import service.RelatorioService;
 
+import java.util.Scanner;
+
 public class RelatorioView {
 
     private RelatorioService relatorioService;
-    private Relatorio relatorio;
+    private Scanner scanner;
 
-    public RelatorioView(RelatorioService relatorioService, Relatorio relatorio) {
+
+    public RelatorioView(RelatorioService relatorioService, Scanner scanner) {
+
         this.relatorioService = relatorioService;
-        this.relatorio = relatorio;
-    }
-
-    public void relatarTraidor(String nomeRebelde) {
-
-        relatorioService.relatarTraidor(nomeRebelde);
+        this.scanner = scanner;
 
     }
+
+    public void relatarTraidor() {
+
+        System.out.println("Informe seu nome:");
+        String nomeDelator = scanner.nextLine();
+        System.out.println("Informe o nome do rebelde que gostaria de denunciar:");
+        String nomeRebelde = scanner.nextLine();
+
+        relatorioService.relatarTraidor(nomeDelator, nomeRebelde);
+
+    }
+
+    public void obterPorcentagemDeRebeldes() {
+
+        relatorioService.obterPorcentagemDeRebeldes();
+
+    }
+
+    public void obterPorcentagemDeTraidores() {
+
+        relatorioService.obterPorcentagemDeTraidores();
+
+    }
+
 }
-*/

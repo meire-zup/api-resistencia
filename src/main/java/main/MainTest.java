@@ -8,8 +8,10 @@ import model.Rebelde;
 import org.postgresql.jdbc2.optional.SimpleDataSource;
 import service.InventarioService;
 import service.RebeldeService;
+import service.RelatorioService;
 import view.InventarioView;
 import view.RebeldeView;
+import view.RelatorioView;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
@@ -41,6 +43,9 @@ public class MainTest {
         RebeldeView rebeldeView = new RebeldeView(rebeldeService, scanner);
         InventarioService inventarioService = new InventarioService(inventarioDAO, produtoDAO, rebeldeDAO);
         InventarioView inventarioView = new InventarioView(scanner, inventarioService);
+        DelatorDAO delatorDAO = new DelatorDAO(conexao, rebeldeDAO);
+        RelatorioService relatorioService = new RelatorioService(relatorioDAO, delatorDAO);
+        RelatorioView relatorioView = new RelatorioView(relatorioService, scanner);
         //InventarioView inventarioView = new InventarioView(inventarioDAO, scanner, rebeldeDAO);
 
         /*System.out.println(rebeldeDAO.buscarRebeldePorNome("Thor"));
@@ -125,7 +130,14 @@ public class MainTest {
         //rebeldeView.atualizaLocalizacao();
 
         // Método que compra produto e coloca no inventário do rebelde
-        inventarioView.adicionaProduto();
+        //inventarioView.adicionaProduto();
+
+        //System.out.println(relatorioDAO.obterPorcentagemTraidores());
+
+        //System.out.println(relatorioDAO.obterPorcentagemRebeldes());
+        relatorioView.obterPorcentagemDeRebeldes();
+        relatorioView.obterPorcentagemDeTraidores();
+
 
     }
 

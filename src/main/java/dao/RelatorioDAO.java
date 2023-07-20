@@ -54,12 +54,13 @@ public class RelatorioDAO {
 
                 atualizarStatusRebelde(nomeRebelde);
 
-                System.out.println(nomeRebelde + "agora é um traidor.");
+                System.out.println(nomeRebelde + "agora é um traidor!");
 
             } else {
 
                 quantidadeRelatorio++;
                 atualizarQuantidadeRelatorio(idRelatorioRebelde, quantidadeRelatorio);
+                System.out.println("Denuncia realizada com sucesso!");
 
             }
     }
@@ -149,4 +150,73 @@ public class RelatorioDAO {
             }
         }
     }
+
+    public double obterPorcentagemTraidores() {
+        double porcentagemTraidores = 0.0;
+        int totalRebeldes = 0;
+        int totalTraidores = 0;
+
+        if (conexaoDAO.getConexao() != null) {
+            String sqlTotalRebeldes = "SELECT COUNT(*) AS total FROM rebelde";
+            String sqlTraidores = "SELECT COUNT(*) AS total FROM rebelde WHERE status = false";
+
+            try (PreparedStatement statementTotalRebeldes = conexaoDAO.getConexao().prepareStatement(sqlTotalRebeldes);
+                 PreparedStatement statementTraidores = conexaoDAO.getConexao().prepareStatement(sqlTraidores);
+                 ResultSet resultSetTotalRebeldes = statementTotalRebeldes.executeQuery();
+                 ResultSet resultSetTraidores = statementTraidores.executeQuery()) {
+
+                if (resultSetTotalRebeldes.next()) {
+                    totalRebeldes = resultSetTotalRebeldes.getInt("total");
+                }
+
+                if (resultSetTraidores.next()) {
+                    totalTraidores = resultSetTraidores.getInt("total");
+                }
+
+                if (totalRebeldes > 0) {
+                    porcentagemTraidores = (double) totalTraidores / totalRebeldes * 100.0;
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Erro ao obter porcentagem de traidores.", e);
+            }
+        }
+
+        return porcentagemTraidores;
+    }
+
+    public double obterPorcentagemRebeldes() {
+        double porcentagemRebeldes = 0.0;
+        int totalRebeldes = 0;
+        int totalTraidores = 0;
+
+        if (conexaoDAO.getConexao() != null) {
+            String sqlTotalRebeldes = "SELECT COUNT(*) AS total FROM rebelde";
+            String sqlTraidores = "SELECT COUNT(*) AS total FROM rebelde WHERE status = true";
+
+            try (PreparedStatement statementTotalRebeldes = conexaoDAO.getConexao().prepareStatement(sqlTotalRebeldes);
+                 PreparedStatement statementTraidores = conexaoDAO.getConexao().prepareStatement(sqlTraidores);
+                 ResultSet resultSetTotalRebeldes = statementTotalRebeldes.executeQuery();
+                 ResultSet resultSetTraidores = statementTraidores.executeQuery()) {
+
+                if (resultSetTotalRebeldes.next()) {
+                    totalRebeldes = resultSetTotalRebeldes.getInt("total");
+                }
+
+                if (resultSetTraidores.next()) {
+                    totalTraidores = resultSetTraidores.getInt("total");
+                }
+
+                if (totalRebeldes > 0) {
+                    porcentagemRebeldes = (double) totalTraidores / totalRebeldes * 100.0;
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException("Erro ao obter porcentagem de traidores.", e);
+            }
+        }
+
+        return porcentagemRebeldes;
+    }
+
 }
