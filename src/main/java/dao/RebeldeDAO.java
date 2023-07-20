@@ -30,11 +30,11 @@ public class RebeldeDAO {
     }
 
     // Método verifica se rebelde existe no banco de dados - testado
-    public boolean verificarSeRebeldeExiste (String nome) {
+    public boolean verificarSeRebeldeExiste(String nome) {
 
         Rebelde rebelde = buscarRebeldePorNome(nome);
 
-        if(rebelde != null) {
+        if (rebelde != null) {
 
             return true;
         }
@@ -99,6 +99,8 @@ public class RebeldeDAO {
         return rebelde;
     }
 
+
+
     // Método adiciona rebelde salva no banco de dados sem setar- testado
     public void adicionarRebelde3(String nome, String genero, Integer idade, String ip) {
 
@@ -126,8 +128,8 @@ public class RebeldeDAO {
                 statement.setString(2, genero);
                 statement.setInt(3, idade);
                 statement.setBoolean(4, status);
-                statement.setLong(5,idLocalizacao);
-                statement.setLong(6,idInventario);
+                statement.setLong(5, idLocalizacao);
+                statement.setLong(6, idInventario);
 
 
                 statement.executeUpdate();

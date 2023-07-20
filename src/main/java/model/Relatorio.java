@@ -3,10 +3,9 @@ package model;
 import java.util.List;
 
 public class Relatorio {
-        private Long id;
-        private Rebelde rebelde;
-        private int quantidadeRelatorio;
-
+    private Long id;
+    private int quantidadeRelatorio;
+    private Rebelde rebelde;
 
     public Relatorio() {
 
@@ -16,19 +15,19 @@ public class Relatorio {
 
     public Rebelde getRebelde() {
 
-            return rebelde;
-        }
+        return rebelde;
+    }
 
-        public int getQuantidadeRelatorio() {
-            return quantidadeRelatorio;
-        }
+    public int getQuantidadeRelatorio() {
+        return quantidadeRelatorio;
+    }
 
-        public void incrementarQuantidadeRelatorio() {
-            quantidadeRelatorio++;
-            if (quantidadeRelatorio >= 3) {
-                rebelde.setStatus(false);
-            }
+    public void incrementarQuantidadeRelatorio() {
+        quantidadeRelatorio++;
+        if (quantidadeRelatorio >= 3) {
+            rebelde.setStatus(false);
         }
+    }
 
     public void setRebelde(Rebelde rebelde) {
         this.rebelde = rebelde;

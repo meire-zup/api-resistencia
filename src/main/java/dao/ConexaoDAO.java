@@ -7,11 +7,11 @@ import java.sql.SQLException;
 public class ConexaoDAO {
 
     // Método faz a conexão com o banco de dados
-    public Connection getConexao(){
+    public Connection getConexao() {
 
         Connection conexao = null;
 
-        try{
+        try {
 
             conexao = DriverManager.getConnection("jdbc:postgresql://localhost:5432/api2",
                     "postgres", "puc@2015");
@@ -24,7 +24,7 @@ public class ConexaoDAO {
 
             return conexao;
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
 
             e.printStackTrace();
 

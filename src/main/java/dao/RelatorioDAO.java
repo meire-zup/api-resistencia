@@ -11,7 +11,6 @@ import java.sql.SQLException;
 public class RelatorioDAO {
 
     ConexaoDAO conexaoDAO;
-    RebeldeDAO rebeldeDAO;
 
     public RelatorioDAO(ConexaoDAO conexaoDAO) {
 

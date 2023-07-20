@@ -1,6 +1,7 @@
 package dao;
 
 import model.Localizacao;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ public class LocalizacaoDAO {
         this.conexaoDAO = conexaoDAO;
 
     }
+
     // Método busca localização no banco de dados passando o ip - testado
     public Localizacao buscarLocalizacaoPorIp(String ip) {
 

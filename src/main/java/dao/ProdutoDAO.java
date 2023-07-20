@@ -16,6 +16,7 @@ public class ProdutoDAO {
         this.conexaoDAO = conexaoDAO;
 
     }
+
     // Método busca produto pelo nome - testado
     public Produto buscarProdutoPorNome(String nome) {
 

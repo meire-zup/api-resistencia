@@ -1,9 +1,13 @@
 package model;
 
+import java.util.List;
+
 public class Produto {
     private Long id;
     private String nome;
     private Double valor;
+
+    private List<Inventario> inventarios;
 
     public Long getId() {
         return id;
@@ -27,5 +31,13 @@ public class Produto {
 
     public void setValor(Double valor) {
         this.valor = valor;
+    }
+
+    public List<Inventario> getInventarios() {
+        return inventarios;
+    }
+
+    public void setInventarios(List<Inventario> inventarios) {
+        this.inventarios = inventarios;
     }
 }

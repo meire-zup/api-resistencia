@@ -9,8 +9,8 @@ import java.sql.SQLException;
 
 public class InventarioDAO {
 
-        private ConexaoDAO conexaoDAO;
-        private ProdutoDAO produtoDAO;
+    private ConexaoDAO conexaoDAO;
+    private ProdutoDAO produtoDAO;
 
     public InventarioDAO(ConexaoDAO conexaoDAO, ProdutoDAO produtoDAO) {
 
@@ -44,31 +44,31 @@ public class InventarioDAO {
     }
 
 
-        // Método adiciona produto no inventario recebendo o nome do produto e o nome do rebelde - testado
-        public void adicionarProdutoNoInventario2(String nomeRebelde, String nomeProduto) {
+    // Método adiciona produto no inventario recebendo o nome do produto e o nome do rebelde - testado
+    public void adicionarProdutoNoInventario2(String nomeRebelde, String nomeProduto) {
 
-            Long inventarioId = buscarIdInventarioPorNomeRebelde(nomeRebelde);
-            Produto produto = produtoDAO.buscarProdutoPorNome(nomeProduto);
+        Long inventarioId = buscarIdInventarioPorNomeRebelde(nomeRebelde);
+        Produto produto = produtoDAO.buscarProdutoPorNome(nomeProduto);
 
-            if (inventarioId != null && produto != null && conexaoDAO.getConexao() != null) {
+        if (inventarioId != null && produto != null && conexaoDAO.getConexao() != null) {
 
-                String sql = "INSERT INTO inventario_produto (inventario_id, produto_id) VALUES (?, ?)";
+            String sql = "INSERT INTO inventario_produto (inventario_id, produto_id) VALUES (?, ?)";
 
-                try (PreparedStatement statement = conexaoDAO.getConexao().prepareStatement(sql)) {
+            try (PreparedStatement statement = conexaoDAO.getConexao().prepareStatement(sql)) {
 
-                    statement.setLong(1, inventarioId);
-                    statement.setLong(2, produto.getId());
-                    statement.executeUpdate();
+                statement.setLong(1, inventarioId);
+                statement.setLong(2, produto.getId());
+                statement.executeUpdate();
 
-                } catch (SQLException e) {
+            } catch (SQLException e) {
 
-                    e.printStackTrace();
+                e.printStackTrace();
 
-                }
             }
         }
+    }
 
-        // Método busca id do inventario de um rebelde - testado
+    // Método busca id do inventario de um rebelde - testado
     public Long buscarIdInventarioPorNomeRebelde(String nomeRebelde) {
 
         Long inventarioId = null;

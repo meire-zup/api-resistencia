@@ -1,19 +1,31 @@
 package main;
 
+import config.InicializacaoDados;
 import dao.*;
+import model.Delator;
 import model.Produto;
 import model.Rebelde;
+import org.postgresql.jdbc2.optional.SimpleDataSource;
 import view.InventarioView;
 import view.RebeldeView;
 
+import javax.sql.DataSource;
+import java.sql.Connection;
 import java.util.Scanner;
 
 public class MainTest {
+    // Main --> view --> service --> dao --> banco de dados
     public static void main(String[] args) {
-
         ConexaoDAO conexao = new ConexaoDAO();
         conexao.getConexao();
-
+        /*
+        Tentativa de ler arquivo sql
+        Connection connection = conexaoDAO.getConexao();
+        SimpleDataSource dataSource = new SimpleDataSource();
+        dataSource.setConnectTimeout(5);
+        InicializacaoDados inicializacaoDados = new InicializacaoDados(dataSource);
+        inicializacaoDados.initializeDatabase();
+        */
         Scanner scanner = new Scanner(System.in);
 
         LocalizacaoDAO localizacaoDAO = new LocalizacaoDAO(conexao);
@@ -21,11 +33,11 @@ public class MainTest {
         InventarioDAO inventarioDAO = new InventarioDAO(conexao, produtoDAO);
         RelatorioDAO relatorioDAO = new RelatorioDAO(conexao);
 
-        RebeldeDAO rebeldeDAO = new RebeldeDAO(conexao, localizacaoDAO,inventarioDAO, relatorioDAO);
+       RebeldeDAO rebeldeDAO = new RebeldeDAO(conexao, localizacaoDAO,inventarioDAO, relatorioDAO);
 
 
-        RebeldeView rebeldeView = new RebeldeView(rebeldeDAO, scanner);
-        InventarioView inventarioView = new InventarioView(inventarioDAO, scanner, rebeldeDAO);
+        //RebeldeView rebeldeView = new RebeldeView(rebeldeDAO, scanner);
+        //InventarioView inventarioView = new InventarioView(inventarioDAO, scanner, rebeldeDAO);
 
         /*System.out.println(rebeldeDAO.buscarRebeldePorNome("Thor"));
         Rebelde rebelde = rebeldeDAO.buscarRebeldePorNome("Thor");
@@ -35,8 +47,8 @@ public class MainTest {
         System.out.println(localizacao.getId());
         //System.out.println(rebelde.getLocalizacao());*/
         //rebeldeDAO.adicionarRebelde("Rebelde Teste","Masculino",35);
-        Produto produto = produtoDAO.buscarProdutoPorNome("Arma");
-        System.out.println(produto.getNome());
+        //Produto produto = produtoDAO.buscarProdutoPorNome("Arma");
+        //System.out.println(produto.getNome());
         //System.out.println(inventarioDAO.buscarInventarioPorId(9L));
 
         //Inventario inventario = new Inventario();
@@ -82,8 +94,18 @@ public class MainTest {
 
         //relatorioDAO.criarRelatorio();
        // System.out.println(relatorioDAO.buscarIdRelatorioPorNomeRebelde("Jucemeire"));
-        relatorioDAO.denunciarTraidor("Jucemeire");
+       // relatorioDAO.denunciarTraidor("Jucemeire");
         //System.out.println(rebeldeDAO.verificarSeRebeldeExiste("Jucemeire"));
+        DelatorDAO delatorDAO = new DelatorDAO(conexao, rebeldeDAO);
+
+        //Boolean existeDenuncia = delatorDAO.existeDenuncia("Luke Skywalker", "Jucemeire");
+        //System.out.println(existeDenuncia);
+        delatorDAO.atualizarDelatorRebelde(1L, 3L);
+        //rebeldeDAO.adicionarRebelde("Camila", "feminino", 16, "192.168.1.4");
+        //Delator delator = delatorDAO.criarDelator("Thor");
+        //System.out.println(delator.getNome());
+
+
 
 
 

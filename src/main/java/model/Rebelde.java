@@ -82,4 +82,6 @@ public class Rebelde {
     public void setRelatorio(Relatorio relatorio) {
         this.relatorio = relatorio;
     }
+
+
 }
