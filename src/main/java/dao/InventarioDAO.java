@@ -45,7 +45,7 @@ public class InventarioDAO {
 
 
     // Método adiciona produto no inventario recebendo o nome do produto e o nome do rebelde - testado
-    public void adicionarProdutoNoInventario2(String nomeRebelde, String nomeProduto) {
+    public void adicionarProdutoNoInventario(String nomeRebelde, String nomeProduto) {
 
         Long inventarioId = buscarIdInventarioPorNomeRebelde(nomeRebelde);
         Produto produto = produtoDAO.buscarProdutoPorNome(nomeProduto);
@@ -59,6 +59,8 @@ public class InventarioDAO {
                 statement.setLong(1, inventarioId);
                 statement.setLong(2, produto.getId());
                 statement.executeUpdate();
+
+                System.out.println("Produto " + produto + " adicionado aos recursos do rebelde " + nomeRebelde);
 
             } catch (SQLException e) {
 

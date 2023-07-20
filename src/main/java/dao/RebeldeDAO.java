@@ -32,19 +32,42 @@ public class RebeldeDAO {
     // Método verifica se rebelde existe no banco de dados - testado
     public boolean verificarSeRebeldeExiste(String nome) {
 
-        Rebelde rebelde = buscarRebeldePorNome(nome);
+        boolean existe = false;
 
-        if (rebelde != null) {
+        if (conexaoDAO.getConexao() != null) {
 
-            return true;
+            String sql = "SELECT id FROM rebelde WHERE nome = ? LIMIT 1";
+
+            try (PreparedStatement statement = conexaoDAO.getConexao().prepareStatement(sql)) {
+
+                statement.setString(1, nome);
+
+                try {
+
+                    ResultSet resultSet = statement.executeQuery();
+                    existe = resultSet.next();
+
+
+                } catch (SQLException e) {
+
+                    throw new RuntimeException(e);
+
+                }
+
+            } catch (SQLException e) {
+
+                throw new RuntimeException(e);
+
+            }
         }
-        return false;
+        return existe;
+
     }
 
     // Método cria rebelde, setando os atributos e salvando no banco de dados
     // Cria objeto rebelde, cria objeto inventario e objeto relatorio.
-    // Adiciona a localização já salva no banco de dados. Se for outra tem que adicionar primeiro - testado
-    public Rebelde adicionarRebelde6(String nome, String genero, Integer idade, String ip) {
+    // Adiciona a localização já salva no banco de dados - testado
+    public Rebelde adicionarRebelde(String nome, String genero, Integer idade, String ip) {
         Rebelde rebelde = null;
         long rebeldeId = 0;
         boolean status = true;
@@ -98,9 +121,14 @@ public class RebeldeDAO {
                     rebelde.setId(rebeldeId);
 
                     System.out.println("Rebelde " + rebelde.getNome() + " adicionado(a) com sucesso!");
+
                 }
             } catch (SQLException e) {
+
+                e.printStackTrace();
+                System.out.println("Erro ao adicionar rebelde!");
                 throw new RuntimeException(e);
+
             }
         }
         return rebelde;
@@ -152,7 +180,8 @@ public class RebeldeDAO {
 
         }
     }
-    // Arrumar esse método pois está sendo usado
+
+    // Método busca um rebelde no banco de dados pelo nome e retorna esse cliente
     public Rebelde buscarRebeldePorNome(String nome) {
         Rebelde rebelde = null;
 
@@ -167,14 +196,6 @@ public class RebeldeDAO {
                         rebelde.setNome(resultSet.getString("nome"));
                         rebelde.setGenero(resultSet.getString("genero"));
                         rebelde.setStatus(resultSet.getBoolean("status"));
-                        // Obtém as informações da localização
-                        //long localizacaoId = resultSet.getLong("localizacao_id");
-                        //String localizacao = resultSet.getString("ip");
-                        //Localizacao localizacaoObj = buscarLocalizacaoPorIp(localizacao);
-                        //Localizacao localizacaoObj = localizacaoDAO.buscarLocalizacaoPorIp(localizacaoId);
-
-                        //rebelde.setLocalizacao(localizacaoObj);
-
                         rebelde.setIdade(resultSet.getInt("idade"));
 
                     } else {
@@ -191,6 +212,7 @@ public class RebeldeDAO {
 
         return rebelde;
     }
+
 
     // Método busca o rebelde por nome e devolve seu id - testado
     public Long buscaIdDoRebelde(String nome) {

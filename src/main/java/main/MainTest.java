@@ -6,6 +6,8 @@ import model.Delator;
 import model.Produto;
 import model.Rebelde;
 import org.postgresql.jdbc2.optional.SimpleDataSource;
+import service.InventarioService;
+import service.RebeldeService;
 import view.InventarioView;
 import view.RebeldeView;
 
@@ -33,10 +35,12 @@ public class MainTest {
         InventarioDAO inventarioDAO = new InventarioDAO(conexao, produtoDAO);
         RelatorioDAO relatorioDAO = new RelatorioDAO(conexao);
 
-       RebeldeDAO rebeldeDAO = new RebeldeDAO(conexao, localizacaoDAO,inventarioDAO, relatorioDAO);
+        RebeldeDAO rebeldeDAO = new RebeldeDAO(conexao, localizacaoDAO,inventarioDAO, relatorioDAO);
+        RebeldeService rebeldeService = new RebeldeService(rebeldeDAO);
 
-
-        //RebeldeView rebeldeView = new RebeldeView(rebeldeDAO, scanner);
+        RebeldeView rebeldeView = new RebeldeView(rebeldeService, scanner);
+        InventarioService inventarioService = new InventarioService(inventarioDAO, produtoDAO, rebeldeDAO);
+        InventarioView inventarioView = new InventarioView(scanner, inventarioService);
         //InventarioView inventarioView = new InventarioView(inventarioDAO, scanner, rebeldeDAO);
 
         /*System.out.println(rebeldeDAO.buscarRebeldePorNome("Thor"));
@@ -104,10 +108,25 @@ public class MainTest {
         //rebeldeDAO.adicionarRebelde("Camila", "feminino", 16, "192.168.1.4");
         //Delator delator = delatorDAO.criarDelator("Thor");
         //System.out.println(delator.getNome());
-        Rebelde rebeldeTeste = rebeldeDAO.adicionarRebelde6("Ultima tentativa", "feminino", 47, "192.168.1.4");
-        System.out.println(rebeldeTeste.getRelatorio().getId());
+        //Rebelde rebeldeTeste = rebeldeDAO.adicionarRebelde6("Ultima tentativa", "feminino", 47, "192.168.1.4");
+        //System.out.println(rebeldeTeste.getRelatorio().getId());
 
         //relatorioDAO.criarRelatorio();
+        //Rebelde rebelde = rebeldeDAO.buscarRebeldePorNome("Luke Skywalker");
+        //System.out.println(rebelde.getNome());
+        //System.out.println(rebeldeDAO.verificarSeRebeldeExiste("Luke Skywalker"));
+
+
+        //TESTANDO MÉTODOS:
+        // Método adicionarRebelde - testado
+        //rebeldeView.adicionarRebelde();
+
+        // Método atualiza localização do rebelde - testado
+        //rebeldeView.atualizaLocalizacao();
+
+        // Método que compra produto e coloca no inventário do rebelde
+        inventarioView.adicionaProduto();
+
     }
 
 

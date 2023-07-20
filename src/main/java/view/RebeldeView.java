@@ -1,18 +1,19 @@
 package view;
 
 import dao.RebeldeDAO;
+import service.RebeldeService;
 
 import java.util.Scanner;
 
 public class RebeldeView {
 
-    private RebeldeDAO rebeldeDAO;
+    private RebeldeService rebeldeService;
 
     private Scanner scanner;
 
-    public RebeldeView(RebeldeDAO rebeldeDAO, Scanner scanner) {
+    public RebeldeView(RebeldeService rebeldeService, Scanner scanner) {
 
-        this.rebeldeDAO = rebeldeDAO;
+        this.rebeldeService = rebeldeService;
         this.scanner = scanner;
 
     }
@@ -29,8 +30,25 @@ public class RebeldeView {
         System.out.println("Informe a idade:");
         Integer idade = scanner.nextInt();
 
-       // rebeldeDAO.adicionarRebelde(nome, genero, idade);
+        scanner.nextLine();
 
+        System.out.println("Informe o ip da localização:");
+        String ip = scanner.nextLine();
+
+        rebeldeService.adicionar(nome,genero,idade,ip);
+
+    }
+
+    // Método atualiza localização do rebelde
+    public void atualizaLocalizacao () {
+
+        System.out.println("Informe o nome:");
+        String nome = scanner.nextLine();
+
+        System.out.println("Informe o ip da localização:");
+        String ip = scanner.nextLine();
+
+        rebeldeService.adicionarNovaLocalizacao(ip, nome);
     }
 
 }

@@ -17,6 +17,41 @@ public class ProdutoDAO {
 
     }
 
+    // Método verifica se produto existe no banco de dados - testado
+    public boolean verificarSeProdutoExiste(String produto) {
+
+        boolean existe = false;
+
+        if (conexaoDAO.getConexao() != null) {
+
+            String sql = "SELECT id FROM produto WHERE nome = ? LIMIT 1";
+
+            try (PreparedStatement statement = conexaoDAO.getConexao().prepareStatement(sql)) {
+
+                statement.setString(1, produto);
+
+                try {
+
+                    ResultSet resultSet = statement.executeQuery();
+                    existe = resultSet.next();
+
+
+                } catch (SQLException e) {
+
+                    throw new RuntimeException(e);
+
+                }
+
+            } catch (SQLException e) {
+
+                throw new RuntimeException(e);
+
+            }
+        }
+        return existe;
+
+    }
+
     // Método busca produto pelo nome - testado
     public Produto buscarProdutoPorNome(String nome) {
 
