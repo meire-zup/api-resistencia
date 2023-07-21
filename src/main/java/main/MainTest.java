@@ -10,11 +10,13 @@ import service.InventarioService;
 import service.RebeldeService;
 import service.RelatorioService;
 import view.InventarioView;
+import view.MenuView;
 import view.RebeldeView;
 import view.RelatorioView;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.util.List;
 import java.util.Scanner;
 
 public class MainTest {
@@ -132,12 +134,12 @@ public class MainTest {
         // Método que compra produto e coloca no inventário do rebelde
         //inventarioView.adicionaProduto();
 
-        //System.out.println(relatorioDAO.obterPorcentagemTraidores());
-
-        //System.out.println(relatorioDAO.obterPorcentagemRebeldes());
-        relatorioView.obterPorcentagemDeRebeldes();
-        relatorioView.obterPorcentagemDeTraidores();
-
+        // Métodos para calcular porcentagem de rebeldes e de traidores
+        //relatorioView.obterPorcentagemDeRebeldes();
+        //relatorioView.obterPorcentagemDeTraidores();
+        //inventarioView.obterRecursosRebelde();
+        MenuView menuView = new MenuView(rebeldeView, inventarioView, relatorioView, scanner);
+        menuView.iniciarPrograma();
 
     }
 

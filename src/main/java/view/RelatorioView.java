@@ -29,12 +29,14 @@ public class RelatorioView {
 
     }
 
+    // Método calcula porcentagem de rebeldes
     public void obterPorcentagemDeRebeldes() {
 
         relatorioService.obterPorcentagemDeRebeldes();
 
     }
 
+    // Método calcula porcentagem de traidores
     public void obterPorcentagemDeTraidores() {
 
         relatorioService.obterPorcentagemDeTraidores();

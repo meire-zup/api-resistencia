@@ -28,4 +28,13 @@ public class InventarioView {
 
     }
 
+    public void obterRecursosRebelde() {
+
+        System.out.println("Informe o nome:");
+        String nome = scanner.nextLine();
+
+        inventarioService.obterRecursosRebelde(nome);
+
+    }
+
 }

@@ -9,6 +9,19 @@ public class Produto {
 
     private List<Inventario> inventarios;
 
+    public Produto(Long id, String nome, double valor) {
+
+        this.id = id;
+        this.nome = nome;
+        this.valor = valor;
+
+    }
+
+    public  Produto() {
+
+
+    }
+
     public Long getId() {
         return id;
     }
@@ -39,5 +52,15 @@ public class Produto {
 
     public void setInventarios(List<Inventario> inventarios) {
         this.inventarios = inventarios;
+    }
+
+    @Override
+    public String toString() {
+        return "Produto{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", valor=" + valor +
+                ", inventarios=" + inventarios +
+                '}';
     }
 }

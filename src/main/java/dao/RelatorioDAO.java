@@ -151,6 +151,7 @@ public class RelatorioDAO {
         }
     }
 
+    // Método calcula porcentagem de traidores - testado
     public double obterPorcentagemTraidores() {
         double porcentagemTraidores = 0.0;
         int totalRebeldes = 0;
@@ -185,6 +186,7 @@ public class RelatorioDAO {
         return porcentagemTraidores;
     }
 
+    // Método calcula porcentagem de rebeldes - testado
     public double obterPorcentagemRebeldes() {
         double porcentagemRebeldes = 0.0;
         int totalRebeldes = 0;

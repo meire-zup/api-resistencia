@@ -28,7 +28,7 @@ public class RelatorioService {
 
         }
     }
-
+    // Método calcula porcentagem de rebeldes
     public void obterPorcentagemDeRebeldes() {
 
         Double porcentagemRebeldes = relatorioDAO.obterPorcentagemRebeldes();
@@ -37,6 +37,7 @@ public class RelatorioService {
 
     }
 
+    // Método calcula porcentagem de traidores
     public void obterPorcentagemDeTraidores() {
 
         Double porcentagemTraidores = relatorioDAO.obterPorcentagemTraidores();

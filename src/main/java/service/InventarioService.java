@@ -3,6 +3,9 @@ package service;
 import dao.InventarioDAO;
 import dao.ProdutoDAO;
 import dao.RebeldeDAO;
+import model.Produto;
+
+import java.util.List;
 
 public class InventarioService {
 
@@ -39,4 +42,22 @@ public class InventarioService {
         }
 
     }
+
+    public void obterRecursosRebelde(String nome) {
+
+        if (rebeldeDAO.verificarSeRebeldeExiste(nome)) {
+
+            List<Produto> produtos = inventarioDAO.obterRecursosRebelde(nome);
+            for (Produto produto : produtos) {
+
+                System.out.println(produto.getNome());
+            }
+
+        } else {
+
+            System.out.println("Não existe rebelde com o nome " + nome);
+
+        }
+    }
+
 }

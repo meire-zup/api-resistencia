@@ -6,6 +6,8 @@ import model.Produto;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class InventarioDAO {
 
@@ -127,4 +129,42 @@ public class InventarioDAO {
         return inventario;
     }
 
+    public List<Produto> obterRecursosRebelde(String nome) {
+
+        Long idInventario = buscarIdInventarioPorNomeRebelde(nome);
+
+        List<Produto> produtos = new ArrayList<>();
+
+        if (conexaoDAO.getConexao() != null) {
+
+            String sql = "SELECT p.id, p.nome, p.valor " +
+                    "FROM produto p " +
+                    "INNER JOIN inventario_produto ip ON p.id = ip.produto_id " +
+                    "WHERE ip.inventario_id = ?";
+
+            try {
+
+                PreparedStatement statement = conexaoDAO.getConexao().prepareStatement(sql);
+                statement.setLong(1, idInventario);
+                ResultSet resultSet = statement.executeQuery();
+                while (resultSet.next()) {
+                    Long id = resultSet.getLong("id");
+                    nome = resultSet.getString("nome");
+                    double valor = resultSet.getDouble("valor");
+
+                    Produto produto = new Produto(id, nome, valor);
+                    produtos.add(produto);
+
+                }
+
+            } catch (SQLException e) {
+
+                throw new RuntimeException(e);
+
+            }
+        }
+
+        return produtos;
+
+    }
 }
