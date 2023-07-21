@@ -22,6 +22,7 @@ public class RelatorioView {
 
         System.out.println("Informe seu nome:");
         String nomeDelator = scanner.nextLine();
+        scanner.nextLine();
         System.out.println("Informe o nome do rebelde que gostaria de denunciar:");
         String nomeRebelde = scanner.nextLine();
 

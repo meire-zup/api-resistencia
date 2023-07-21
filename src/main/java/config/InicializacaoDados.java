@@ -12,7 +12,14 @@ import java.sql.Statement;
 public class InicializacaoDados {
 
     private final DataSource dataSource;
-
+    /*
+        Tentativa de ler arquivo sql
+        Connection connection = conexaoDAO.getConexao();
+        SimpleDataSource dataSource = new SimpleDataSource();
+        dataSource.setConnectTimeout(5);
+        InicializacaoDados inicializacaoDados = new InicializacaoDados(dataSource);
+        inicializacaoDados.initializeDatabase();
+        */
 
     public InicializacaoDados(DataSource dataSource) {
         this.dataSource = dataSource;

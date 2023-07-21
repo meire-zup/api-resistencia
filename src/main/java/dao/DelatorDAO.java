@@ -1,10 +1,6 @@
 package dao;
 
 import model.Delator;
-import model.Inventario;
-import model.Produto;
-import model.Relatorio;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
